@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo/core/usecase.dart';
 import 'package:todo/domain/entities/todo_collection.dart';
 import 'package:todo/domain/usecases/load_todo_collections.dart';
+import 'package:todo/presentation/pages/detail/bloc/todo_detail_cubit.dart';
 
 part 'todo_overview_cubit_state.dart';
 

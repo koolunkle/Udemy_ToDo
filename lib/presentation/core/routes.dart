@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:todo/domain/entities/unique_id.dart';
 import 'package:todo/presentation/core/go_router_observer.dart';
 import 'package:todo/presentation/pages/dashboard/dashboard_page.dart';
+import 'package:todo/presentation/pages/detail/todo_detail_page.dart';
 import 'package:todo/presentation/pages/home/home_page.dart';
+import 'package:todo/presentation/pages/overview/overview_page.dart';
 import 'package:todo/presentation/pages/settings/settings_page.dart';
 
 final GlobalKey<NavigatorState> _rootNavigatorKey = GlobalKey<NavigatorState>(
@@ -39,6 +42,34 @@ final routes = GoRouter(
               ),
         ),
       ],
+    ),
+    GoRoute(
+      name: ToDoDetailPage.pageConfig.name,
+      path: '$_basePath/${OverviewPage.pageConfig.name}/:collectionId',
+      builder: (context, state) {
+        return Scaffold(
+          appBar: AppBar(
+            title: Text('details'),
+            leading: BackButton(
+              onPressed: () {
+                if (context.canPop()) {
+                  context.pop();
+                } else {
+                  context.goNamed(
+                    HomePage.pageConfig.name,
+                    pathParameters: {'tab': OverviewPage.pageConfig.name},
+                  );
+                }
+              },
+            ),
+          ),
+          body: ToDoDetailPageProvider(
+            collectionId: CollectionId.fromUniqueString(
+              state.pathParameters['collectionId'] ?? '',
+            ),
+          ),
+        );
+      },
     ),
   ],
 );
