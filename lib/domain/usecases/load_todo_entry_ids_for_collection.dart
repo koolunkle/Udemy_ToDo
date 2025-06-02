@@ -4,9 +4,9 @@ import 'package:todo/domain/entities/unique_id.dart';
 import 'package:todo/domain/failures/failures.dart';
 import 'package:todo/domain/repositories/todo_repository.dart';
 
-class LoadTodoEntryIdsForCollection
+class LoadToDoEntryIdsForCollection
     implements UseCase<List<EntryId>, CollectionIdParam> {
-  const LoadTodoEntryIdsForCollection({required this.toDoRepository});
+  const LoadToDoEntryIdsForCollection({required this.toDoRepository});
 
   final ToDoRepository toDoRepository;
 
