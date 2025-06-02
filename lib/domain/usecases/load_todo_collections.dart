@@ -7,7 +7,7 @@ import 'package:todo/domain/repositories/todo_repository.dart';
 class LoadToDoCollections implements UseCase<List<ToDoCollection>, NoParams> {
   const LoadToDoCollections({required this.todoRepository});
 
-  final TodoRepository todoRepository;
+  final ToDoRepository todoRepository;
 
   @override
   Future<Either<Failure, List<ToDoCollection>>> call(NoParams params) async {

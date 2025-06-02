@@ -5,7 +5,7 @@ import 'package:todo/domain/entities/unique_id.dart';
 import 'package:todo/domain/failures/failures.dart';
 import 'package:todo/domain/repositories/todo_repository.dart';
 
-class TodoCollectionRepositoryMock implements TodoRepository {
+class ToDoCollectionRepositoryMock implements ToDoRepository {
   @override
   Future<Either<Failure, List<ToDoCollection>>> readToDoCollection() {
     final list = List.generate(
