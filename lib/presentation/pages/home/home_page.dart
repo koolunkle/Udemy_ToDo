@@ -65,6 +65,7 @@ class _HomePageState extends State<HomePage> {
                 builder:
                     (context) => AdaptiveScaffold.standardNavigationRail(
                       leading: IconButton(
+                        key: const Key('create-todo-collection'),
                         onPressed: () {
                           context.pushNamed(
                             CreateToDoCollectionPage.pageConfig.name,
