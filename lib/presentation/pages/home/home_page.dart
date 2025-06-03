@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_adaptive_scaffold/flutter_adaptive_scaffold.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:todo/presentation/core/page_config.dart';
 import 'package:todo/presentation/pages/dashboard/dashboard_page.dart';
+import 'package:todo/presentation/pages/detail/todo_detail_page.dart';
+import 'package:todo/presentation/pages/home/bloc/navigation_todo_cubit.dart';
 import 'package:todo/presentation/pages/overview/overview_page.dart';
 import 'package:todo/presentation/pages/settings/settings_page.dart';
 
@@ -96,7 +99,7 @@ class _HomePageState extends State<HomePage> {
           body: SlotLayout(
             config: <Breakpoint, SlotLayoutConfig>{
               Breakpoints.smallAndUp: SlotLayout.from(
-                key: Key('primary-body'),
+                key: Key('primary-body-small'),
                 builder: (context) => HomePage.tabs[widget.index].child,
               ),
             },
@@ -104,8 +107,36 @@ class _HomePageState extends State<HomePage> {
           secondaryBody: SlotLayout(
             config: <Breakpoint, SlotLayoutConfig>{
               Breakpoints.mediumAndUp: SlotLayout.from(
-                key: Key('secondary-body'),
-                builder: AdaptiveScaffold.emptyBuilder,
+                key: Key('secondary-body-medium'),
+                builder:
+                    widget.index != 1
+                        ? null
+                        : (_) => BlocBuilder<
+                          NavigationTodoCubit,
+                          NavigationToDoCubitState
+                        >(
+                          builder: (context, state) {
+                            final selectedId = state.selectedCollectionId;
+                            final isSecondBodyDisplayed = Breakpoints
+                                .mediumAndUp
+                                .isActive(context);
+
+                            context
+                                .read<NavigationTodoCubit>()
+                                .secondBodyHasChanged(
+                                  isSecondBodyDisplayed: isSecondBodyDisplayed,
+                                );
+
+                            if (selectedId == null) {
+                              return SizedBox.shrink();
+                            } else {
+                              return ToDoDetailPageProvider(
+                                key: Key(selectedId.value),
+                                collectionId: selectedId,
+                              );
+                            }
+                          },
+                        ),
               ),
             },
           ),
