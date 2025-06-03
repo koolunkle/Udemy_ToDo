@@ -1,5 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:todo/core/usecase.dart';
+import 'package:todo/domain/entities/todo_entry.dart';
 import 'package:todo/domain/entities/unique_id.dart';
 import 'package:todo/domain/usecases/create_todo_entry.dart';
 import 'package:todo/presentation/core/form_value.dart';
@@ -33,5 +35,13 @@ class CreateToDoEntryPageCubit extends Cubit<CreateToDoEntryPageState> {
     );
   }
 
-  void submit() {}
+  void submit() async {
+    await addToDoEntry.call(
+      ToDoEntryParams(
+        entry: ToDoEntry.empty().copyWith(
+          description: state.description?.value,
+        ),
+      ),
+    );
+  }
 }
