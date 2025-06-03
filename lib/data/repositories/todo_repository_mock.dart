@@ -21,7 +21,7 @@ class ToDoRepositoryMock implements ToDoRepository {
     (index) => ToDoCollection(
       id: CollectionId.fromUniqueString(index.toString()),
       title: 'title $index',
-      color: TodoColor(colorIndex: index % TodoColor.predefinedColors.length),
+      color: ToDoColor(colorIndex: index % ToDoColor.predefinedColors.length),
     ),
   );
 
@@ -91,6 +91,17 @@ class ToDoRepositoryMock implements ToDoRepository {
     return Future.delayed(
       const Duration(milliseconds: 100),
       () => Right(updatedEntry),
+    );
+  }
+
+  @override
+  Future<Either<Failure, bool>> createToDoCollection(
+    ToDoCollection collection,
+  ) {
+    toDoCollections.add(collection);
+    return Future.delayed(
+      const Duration(milliseconds: 100),
+      () => const Right(true),
     );
   }
 }

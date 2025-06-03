@@ -9,8 +9,8 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<NavigationTodoCubit>(
-      create: (context) => NavigationTodoCubit(),
+    return BlocProvider<NavigationToDoCubit>(
+      create: (context) => NavigationToDoCubit(),
       child: MaterialApp.router(
         title: 'ToDo App',
         localizationsDelegates: [

@@ -4,7 +4,7 @@ import 'package:todo/domain/entities/unique_id.dart';
 class ToDoCollection {
   final CollectionId id;
   final String title;
-  final TodoColor color;
+  final ToDoColor color;
 
   ToDoCollection({required this.id, required this.title, required this.color});
 
@@ -12,7 +12,15 @@ class ToDoCollection {
     return ToDoCollection(
       id: CollectionId(),
       title: '',
-      color: TodoColor(colorIndex: 0),
+      color: ToDoColor(colorIndex: 0),
+    );
+  }
+
+  ToDoCollection copyWith({String? title, ToDoColor? color}) {
+    return ToDoCollection(
+      id: id,
+      title: title ?? this.title,
+      color: color ?? this.color,
     );
   }
 }

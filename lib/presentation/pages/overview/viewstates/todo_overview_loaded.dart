@@ -19,7 +19,7 @@ class ToDoOverviewLoaded extends StatelessWidget {
         final item = collections[index];
         final colorScheme = Theme.of(context).colorScheme;
         
-        return BlocBuilder<NavigationTodoCubit, NavigationToDoCubitState>(
+        return BlocBuilder<NavigationToDoCubit, NavigationToDoCubitState>(
           buildWhen:
               (previous, current) =>
                   previous.selectedCollectionId != current.selectedCollectionId,
@@ -32,7 +32,7 @@ class ToDoOverviewLoaded extends StatelessWidget {
               selected: state.selectedCollectionId == item.id,
               onTap: () {
                 context
-                    .read<NavigationTodoCubit>()
+                    .read<NavigationToDoCubit>()
                     .selectedToDoCollectionChanged(item.id);
                 if (Breakpoints.small.isActive(context)) {
                   context.pushNamed(

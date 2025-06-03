@@ -3,11 +3,26 @@ import 'package:flutter_adaptive_scaffold/flutter_adaptive_scaffold.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:todo/presentation/core/page_config.dart';
+import 'package:todo/presentation/pages/create_todo_collection/create_todo_collection_page.dart';
 import 'package:todo/presentation/pages/dashboard/dashboard_page.dart';
 import 'package:todo/presentation/pages/detail/todo_detail_page.dart';
 import 'package:todo/presentation/pages/home/bloc/navigation_todo_cubit.dart';
 import 'package:todo/presentation/pages/overview/overview_page.dart';
 import 'package:todo/presentation/pages/settings/settings_page.dart';
+
+class HomePageProvider extends StatelessWidget {
+  const HomePageProvider({super.key, required this.tab});
+
+  final String tab;
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider<NavigationToDoCubit>(
+      create: (_) => NavigationToDoCubit(),
+      child: HomePage(tab: tab),
+    );
+  }
+}
 
 class HomePage extends StatefulWidget {
   HomePage({super.key, required String tab})
@@ -49,6 +64,15 @@ class _HomePageState extends State<HomePage> {
                 key: Key('primary-navigation-medium'),
                 builder:
                     (context) => AdaptiveScaffold.standardNavigationRail(
+                      leading: IconButton(
+                        onPressed: () {
+                          context.pushNamed(
+                            CreateToDoCollectionPage.pageConfig.name,
+                          );
+                        },
+                        icon: Icon(CreateToDoCollectionPage.pageConfig.icon),
+                        tooltip: 'Add Collection',
+                      ),
                       trailing: IconButton(
                         onPressed:
                             () =>
@@ -112,7 +136,7 @@ class _HomePageState extends State<HomePage> {
                     widget.index != 1
                         ? null
                         : (_) => BlocBuilder<
-                          NavigationTodoCubit,
+                          NavigationToDoCubit,
                           NavigationToDoCubitState
                         >(
                           builder: (context, state) {
@@ -122,7 +146,7 @@ class _HomePageState extends State<HomePage> {
                                 .isActive(context);
 
                             context
-                                .read<NavigationTodoCubit>()
+                                .read<NavigationToDoCubit>()
                                 .secondBodyHasChanged(
                                   isSecondBodyDisplayed: isSecondBodyDisplayed,
                                 );

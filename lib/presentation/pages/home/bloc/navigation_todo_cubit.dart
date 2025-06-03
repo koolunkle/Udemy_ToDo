@@ -5,8 +5,8 @@ import 'package:todo/domain/entities/unique_id.dart';
 
 part 'navigation_todo_cubit_state.dart';
 
-class NavigationTodoCubit extends Cubit<NavigationToDoCubitState> {
-  NavigationTodoCubit() : super(const NavigationToDoCubitState());
+class NavigationToDoCubit extends Cubit<NavigationToDoCubitState> {
+  NavigationToDoCubit() : super(const NavigationToDoCubitState());
 
   void selectedToDoCollectionChanged(CollectionId collectionId) {
     debugPrint(collectionId.value);
