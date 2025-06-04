@@ -6,6 +6,7 @@ import 'package:todo/presentation/core/page_config.dart';
 import 'package:todo/presentation/pages/dashboard/dashboard_page.dart';
 import 'package:todo/presentation/pages/detail/todo_detail_page.dart';
 import 'package:todo/presentation/pages/home/bloc/navigation_todo_cubit.dart';
+import 'package:todo/presentation/pages/home/components/login_button.dart';
 import 'package:todo/presentation/pages/overview/overview_page.dart';
 import 'package:todo/presentation/pages/settings/settings_page.dart';
 
@@ -71,6 +72,7 @@ class _HomePageState extends State<HomePage> {
                   key: Key('primary-navigation-medium'),
                   builder:
                       (context) => AdaptiveScaffold.standardNavigationRail(
+                        leading: LoginButton(),
                         trailing: IconButton(
                           onPressed: () {
                             context.pushNamed(SettingsPage.pageConfig.name);
