@@ -6,6 +6,7 @@ import 'package:todo/domain/entities/todo_collection.dart';
 import 'package:todo/presentation/pages/create_todo_collection/create_todo_collection_page.dart';
 import 'package:todo/presentation/pages/detail/todo_detail_page.dart';
 import 'package:todo/presentation/pages/home/bloc/navigation_todo_cubit.dart';
+import 'package:todo/presentation/pages/overview/bloc/todo_overview_cubit.dart';
 
 class ToDoOverviewLoaded extends StatelessWidget {
   const ToDoOverviewLoaded({super.key, required this.collections});
@@ -14,7 +15,6 @@ class ToDoOverviewLoaded extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final shouldDisplayAddItemButton = Breakpoints.small.isActive(context);
     return Stack(
       children: [
         ListView.builder(
@@ -54,22 +54,30 @@ class ToDoOverviewLoaded extends StatelessWidget {
             );
           },
         ),
-        if (shouldDisplayAddItemButton)
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Align(
-              alignment: Alignment.bottomRight,
-              child: FloatingActionButton(
-                key: const Key('create-todo-collection'),
-                heroTag: 'create-todo-collection',
-                onPressed:
-                    () => context.pushNamed(
-                      CreateToDoCollectionPage.pageConfig.name,
-                    ),
-                child: Icon(CreateToDoCollectionPage.pageConfig.icon),
-              ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Align(
+            alignment: Alignment.bottomRight,
+            child: FloatingActionButton(
+              key: const Key('create-todo-collection'),
+              heroTag: 'create-todo-collection',
+              onPressed: () {
+                context
+                    .pushNamed(CreateToDoCollectionPage.pageConfig.name)
+                    .then((value) {
+                      if (value == true) {
+                        if (context.mounted) {
+                          context
+                              .read<ToDoOverviewCubit>()
+                              .readToDoCollections();
+                        }
+                      }
+                    });
+              },
+              child: Icon(CreateToDoCollectionPage.pageConfig.icon),
             ),
           ),
+        ),
       ],
     );
   }
