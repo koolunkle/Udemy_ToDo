@@ -45,9 +45,9 @@ class ToDoEntryItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<ToDoEntryItemCubit, ToDoEntryItemCubitState>(
       builder: (context, state) {
-        if (state is TodoEntryItemLoadingState) {
+        if (state is ToDoEntryItemLoadingState) {
           return const ToDoEntryItemLoading();
-        } else if (state is TodoEntryItemLoadedState) {
+        } else if (state is ToDoEntryItemLoadedState) {
           return ToDoEntryItemLoaded(
             entryItem: state.toDoEntry,
             onChanged: (value) => context.read<ToDoEntryItemCubit>().update(),

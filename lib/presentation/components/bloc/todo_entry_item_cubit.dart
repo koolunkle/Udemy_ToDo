@@ -14,7 +14,7 @@ class ToDoEntryItemCubit extends Cubit<ToDoEntryItemCubitState> {
     required this.collectionId,
     required this.loadToDoEntry,
     required this.uploadToDoEntry,
-  }) : super(TodoEntryItemLoadingState());
+  }) : super(ToDoEntryItemLoadingState());
 
   final EntryId entryId;
   final CollectionId collectionId;
@@ -22,31 +22,39 @@ class ToDoEntryItemCubit extends Cubit<ToDoEntryItemCubitState> {
   final UpdateToDoEntry uploadToDoEntry;
 
   Future<void> fetch() async {
-    emit(TodoEntryItemLoadingState());
+    emit(ToDoEntryItemLoadingState());
     try {
       final entry = await loadToDoEntry.call(
         ToDoEntryIdsParam(collectionId: collectionId, entryId: entryId),
       );
       return entry.fold(
-        (left) => emit(TodoEntryItemErrorState()),
-        (right) => emit(TodoEntryItemLoadedState(toDoEntry: right)),
+        (left) => emit(ToDoEntryItemErrorState()),
+        (right) => emit(ToDoEntryItemLoadedState(toDoEntry: right)),
       );
     } on Exception {
-      emit(TodoEntryItemErrorState());
+      emit(ToDoEntryItemErrorState());
     }
   }
 
   Future<void> update() async {
     try {
-      final updatedEntry = await uploadToDoEntry.call(
-        ToDoEntryIdsParam(collectionId: collectionId, entryId: entryId),
-      );
-      return updatedEntry.fold(
-        (left) => emit(TodoEntryItemErrorState()),
-        (right) => emit(TodoEntryItemLoadedState(toDoEntry: right)),
-      );
-    } catch (e) {
-      emit(TodoEntryItemErrorState());
+      if (state is ToDoEntryItemLoadedState) {
+        final currentEntry = (state as ToDoEntryItemLoadedState).toDoEntry;
+
+        final entryToUpdate = currentEntry.copyWith(
+          isDone: !currentEntry.isDone,
+        );
+
+        final updatedEntry = await uploadToDoEntry.call(
+          ToDoEntryParams(collectionId: collectionId, entry: entryToUpdate),
+        );
+        return updatedEntry.fold(
+          (left) => emit(ToDoEntryItemErrorState()),
+          (right) => emit(ToDoEntryItemLoadedState(toDoEntry: right)),
+        );
+      }
+    } on Exception {
+      emit(ToDoEntryItemErrorState());
     }
   }
 }

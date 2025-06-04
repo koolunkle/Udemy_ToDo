@@ -110,15 +110,14 @@ class ToDoRepositoryLocal
   @override
   Future<Either<Failure, ToDoEntry>> updateToDoEntry({
     required CollectionId collectionId,
-    required EntryId entryId,
+    required ToDoEntry entry,
   }) async {
     try {
-      final entry = await localDataSource.updateToDoEntry(
+      final updateEntry = await localDataSource.updateToDoEntry(
         collectionId: collectionId.value,
-        entryId: entryId.value,
+        entryId: entry.id.value,
       );
-
-      return Right(toDoEntryModelToEntity(entry));
+      return Right(toDoEntryModelToEntity(updateEntry));
     } on CacheException catch (e) {
       return Future.value(Left(CacheFailure(stackTrace: e.toString())));
     } on Exception catch (e) {

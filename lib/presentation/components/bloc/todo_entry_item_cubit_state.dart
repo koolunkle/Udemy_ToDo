@@ -7,12 +7,12 @@ abstract class ToDoEntryItemCubitState extends Equatable {
   List<Object?> get props => [];
 }
 
-class TodoEntryItemLoadingState extends ToDoEntryItemCubitState {}
+class ToDoEntryItemLoadingState extends ToDoEntryItemCubitState {}
 
-class TodoEntryItemErrorState extends ToDoEntryItemCubitState {}
+class ToDoEntryItemErrorState extends ToDoEntryItemCubitState {}
 
-class TodoEntryItemLoadedState extends ToDoEntryItemCubitState {
-  const TodoEntryItemLoadedState({required this.toDoEntry});
+class ToDoEntryItemLoadedState extends ToDoEntryItemCubitState {
+  const ToDoEntryItemLoadedState({required this.toDoEntry});
 
   final ToDoEntry toDoEntry;
 
