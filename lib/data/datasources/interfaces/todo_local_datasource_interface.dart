@@ -14,7 +14,7 @@ abstract class ToDoLocalDataSourceInterface {
   Future<List<String>> getToDoCollectionIds();
 
   Future<bool> createToDoEntry({
-    required collectionId,
+    required String collectionId,
     required ToDoEntryModel entry,
   });
 
