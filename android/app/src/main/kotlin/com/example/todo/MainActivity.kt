@@ -1,4 +1,4 @@
-package com.example.todo
+package dev.koolunkle.todo
 
 import io.flutter.embedding.android.FlutterActivity
 
