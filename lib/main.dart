@@ -5,7 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:todo/data/local/hive_local_datasource.dart';
-import 'package:todo/data/repositories/todo_repository_local.dart';
+import 'package:todo/data/remote/firestore_remote_data_source.dart';
+import 'package:todo/data/repositories/todo_repository_remote.dart';
 import 'package:todo/domain/repositories/todo_repository.dart';
 import 'package:todo/firebase_options.dart';
 import 'package:todo/presentation/app/app.dart';
@@ -21,6 +22,8 @@ Future<void> main() async {
   final localDataSource = HiveLocalDataSource();
   await localDataSource.init();
 
+  final remoteDataSource = FirestoreRemoteDataSource();
+
   final authCubit = AuthCubit();
 
   FirebaseAuth.instance.authStateChanges().listen((user) {
@@ -30,8 +33,7 @@ Future<void> main() async {
 
   runApp(
     RepositoryProvider<ToDoRepository>(
-      create:
-          (context) => ToDoRepositoryLocal(localDataSource: localDataSource),
+      create: (context) => ToDoRepositoryRemote(remoteSource: remoteDataSource),
       child: BlocProvider(create: (context) => authCubit, child: const App()),
     ),
   );
