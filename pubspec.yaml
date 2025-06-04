@@ -37,6 +37,7 @@ dependencies:
   json_annotation: ^4.9.0
 
   hive: ^2.2.3
+  firebase_core: ^3.13.1
 
 dev_dependencies:
   flutter_test:
