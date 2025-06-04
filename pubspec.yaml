@@ -44,6 +44,10 @@ dependencies:
   
   firebase_ui_auth: ^1.16.1
 
+  cloud_firestore: ^5.6.8
+
+  meta: ^1.17.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
