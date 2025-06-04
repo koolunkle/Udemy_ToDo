@@ -38,7 +38,7 @@ final routes = GoRouter(
           name: HomePage.pageConfig.name,
           path: '$_basePath/:tab',
           builder:
-              (context, state) => HomePage(
+              (context, state) => HomePageProvider(
                 key: state.pageKey,
                 tab: state.pathParameters['tab'] ?? 'dashboard',
               ),

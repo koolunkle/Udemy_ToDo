@@ -3,7 +3,6 @@ import 'package:flutter_adaptive_scaffold/flutter_adaptive_scaffold.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:todo/presentation/core/page_config.dart';
-import 'package:todo/presentation/pages/create_todo_collection/create_todo_collection_page.dart';
 import 'package:todo/presentation/pages/dashboard/dashboard_page.dart';
 import 'package:todo/presentation/pages/detail/todo_detail_page.dart';
 import 'package:todo/presentation/pages/home/bloc/navigation_todo_cubit.dart';
@@ -55,92 +54,106 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: AdaptiveLayout(
-          primaryNavigation: SlotLayout(
-            config: <Breakpoint, SlotLayoutConfig>{
-              Breakpoints.mediumAndUp: SlotLayout.from(
-                key: Key('primary-navigation-medium'),
-                builder:
-                    (context) => AdaptiveScaffold.standardNavigationRail(
-                      trailing: IconButton(
-                        onPressed: () {
-                          context.pushNamed(SettingsPage.pageConfig.name);
-                        },
-                        icon: Icon(SettingsPage.pageConfig.icon),
-                      ),
-                      selectedIndex: widget.index,
-                      onDestinationSelected:
-                          (index) =>
-                              _tabOnNavigationDestination(context, index),
-                      destinations:
-                          destinations
-                              .map(
-                                (element) =>
-                                    AdaptiveScaffold.toRailDestination(element),
-                              )
-                              .toList(),
-                    ),
-              ),
-            },
-          ),
-          bottomNavigation: SlotLayout(
-            config: <Breakpoint, SlotLayoutConfig>{
-              Breakpoints.small: SlotLayout.from(
-                key: Key('bottom-navigation-small'),
-                builder:
-                    (context) => AdaptiveScaffold.standardBottomNavigationBar(
-                      currentIndex: widget.index,
-                      destinations: destinations,
-                      onDestinationSelected:
-                          (index) =>
-                              _tabOnNavigationDestination(context, index),
-                    ),
-              ),
-            },
-          ),
-          body: SlotLayout(
-            config: <Breakpoint, SlotLayoutConfig>{
-              Breakpoints.smallAndUp: SlotLayout.from(
-                key: Key('primary-body-small'),
-                builder: (context) => HomePage.tabs[widget.index].child,
-              ),
-            },
-          ),
-          secondaryBody: SlotLayout(
-            config: <Breakpoint, SlotLayoutConfig>{
-              Breakpoints.mediumAndUp: SlotLayout.from(
-                key: Key('secondary-body-medium'),
-                builder:
-                    widget.index != 1
-                        ? null
-                        : (_) => BlocBuilder<
-                          NavigationToDoCubit,
-                          NavigationToDoCubitState
-                        >(
-                          builder: (context, state) {
-                            final selectedId = state.selectedCollectionId;
-                            final isSecondBodyDisplayed = Breakpoints
-                                .mediumAndUp
-                                .isActive(context);
-
-                            context
-                                .read<NavigationToDoCubit>()
-                                .secondBodyHasChanged(
-                                  isSecondBodyDisplayed: isSecondBodyDisplayed,
-                                );
-
-                            if (selectedId == null) {
-                              return SizedBox.shrink();
-                            } else {
-                              return ToDoDetailPageProvider(
-                                key: Key(selectedId.value),
-                                collectionId: selectedId,
-                              );
-                            }
+        child: BlocListener<NavigationToDoCubit, NavigationToDoCubitState>(
+          listenWhen:
+              (previous, current) =>
+                  previous.isSecondBodyDisplayed !=
+                  current.isSecondBodyDisplayed,
+          listener: (context, state) {
+            if (context.canPop() && (state.isSecondBodyDisplayed ?? false)) {
+              context.pop();
+            }
+          },
+          child: AdaptiveLayout(
+            primaryNavigation: SlotLayout(
+              config: <Breakpoint, SlotLayoutConfig>{
+                Breakpoints.mediumAndUp: SlotLayout.from(
+                  key: Key('primary-navigation-medium'),
+                  builder:
+                      (context) => AdaptiveScaffold.standardNavigationRail(
+                        trailing: IconButton(
+                          onPressed: () {
+                            context.pushNamed(SettingsPage.pageConfig.name);
                           },
+                          icon: Icon(SettingsPage.pageConfig.icon),
                         ),
-              ),
-            },
+                        selectedIndex: widget.index,
+                        onDestinationSelected:
+                            (index) =>
+                                _tabOnNavigationDestination(context, index),
+                        destinations:
+                            destinations
+                                .map(
+                                  (element) =>
+                                      AdaptiveScaffold.toRailDestination(
+                                        element,
+                                      ),
+                                )
+                                .toList(),
+                      ),
+                ),
+              },
+            ),
+            bottomNavigation: SlotLayout(
+              config: <Breakpoint, SlotLayoutConfig>{
+                Breakpoints.small: SlotLayout.from(
+                  key: Key('bottom-navigation-small'),
+                  builder:
+                      (context) => AdaptiveScaffold.standardBottomNavigationBar(
+                        currentIndex: widget.index,
+                        destinations: destinations,
+                        onDestinationSelected:
+                            (index) =>
+                                _tabOnNavigationDestination(context, index),
+                      ),
+                ),
+              },
+            ),
+            body: SlotLayout(
+              config: <Breakpoint, SlotLayoutConfig>{
+                Breakpoints.smallAndUp: SlotLayout.from(
+                  key: Key('primary-body-small'),
+                  builder: (context) => HomePage.tabs[widget.index].child,
+                ),
+              },
+            ),
+            secondaryBody: SlotLayout(
+              config: <Breakpoint, SlotLayoutConfig>{
+                Breakpoints.mediumAndUp: SlotLayout.from(
+                  key: Key('secondary-body-medium'),
+                  builder:
+                      widget.index != 1
+                          ? null
+                          : (_) => BlocBuilder<
+                            NavigationToDoCubit,
+                            NavigationToDoCubitState
+                          >(
+                            builder: (context, state) {
+                              final selectedId = state.selectedCollectionId;
+                              final isSecondBodyDisplayed = Breakpoints
+                                  .mediumAndUp
+                                  .isActive(context);
+
+                              context
+                                  .read<NavigationToDoCubit>()
+                                  .secondBodyHasChanged(
+                                    isSecondBodyDisplayed:
+                                        isSecondBodyDisplayed,
+                                  );
+
+                              if (selectedId == null) {
+                                return SizedBox.shrink();
+                              } else {
+                                return ToDoDetailPageProvider(
+                                  key: Key(selectedId.value),
+                                  collectionId: selectedId,
+                                );
+                              }
+                            },
+                          ),
+                ),
+              },
+            ),
           ),
         ),
       ),
