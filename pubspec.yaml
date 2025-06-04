@@ -46,7 +46,7 @@ dependencies:
 
   cloud_firestore: ^5.6.8
 
-  meta: ^1.17.0
+  meta: ^1.16.0
 
 dev_dependencies:
   flutter_test:
