@@ -10,9 +10,9 @@ import 'package:todo/presentation/pages/detail/viewstates/todo_detail_loaded.dar
 import 'package:todo/presentation/pages/detail/viewstates/todo_detail_loading.dart';
 
 class ToDoDetailPageProvider extends StatelessWidget {
-  const ToDoDetailPageProvider({super.key, required this.collectionId});
+  const ToDoDetailPageProvider({super.key, this.collectionId});
 
-  final CollectionId collectionId;
+  final CollectionId? collectionId;
 
   @override
   Widget build(BuildContext context) {
@@ -30,9 +30,9 @@ class ToDoDetailPageProvider extends StatelessWidget {
 }
 
 class ToDoDetailPage extends StatelessWidget {
-  const ToDoDetailPage({super.key, required this.collectionId});
+  const ToDoDetailPage({super.key, this.collectionId});
 
-  final CollectionId collectionId;
+  final CollectionId? collectionId;
 
   static const pageConfig = PageConfig(
     icon: Icons.details_rounded,
