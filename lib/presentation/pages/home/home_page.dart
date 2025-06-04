@@ -53,8 +53,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     return Scaffold(
       body: SafeArea(
         child: AdaptiveLayout(
@@ -66,32 +64,24 @@ class _HomePageState extends State<HomePage> {
                     (context) => AdaptiveScaffold.standardNavigationRail(
                       leading: IconButton(
                         key: const Key('create-todo-collection'),
-                        onPressed: () {
-                          context.pushNamed(
+                        onPressed: () async {
+                          final result = await context.pushNamed(
                             CreateToDoCollectionPage.pageConfig.name,
                           );
+                          if (result == true) {
+                            debugPrint('item was created successfully');
+                          }
                         },
                         icon: Icon(CreateToDoCollectionPage.pageConfig.icon),
                         tooltip: 'Add Collection',
                       ),
                       trailing: IconButton(
-                        onPressed:
-                            () =>
-                                context.pushNamed(SettingsPage.pageConfig.name),
+                        onPressed: () {
+                          context.pushNamed(SettingsPage.pageConfig.name);
+                        },
                         icon: Icon(SettingsPage.pageConfig.icon),
                       ),
                       selectedIndex: widget.index,
-                      selectedLabelTextStyle: TextStyle(
-                        color: theme.colorScheme.onSurface,
-                      ),
-                      selectedIconTheme: IconThemeData(
-                        color: theme.colorScheme.onSurface,
-                      ),
-                      unselectedIconTheme: IconThemeData(
-                        color: theme.colorScheme.onSurface.withValues(
-                          alpha: 0.5,
-                        ),
-                      ),
                       onDestinationSelected:
                           (index) =>
                               _tabOnNavigationDestination(context, index),

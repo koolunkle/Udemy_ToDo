@@ -5,7 +5,7 @@ import 'package:todo/domain/entities/unique_id.dart';
 import 'package:todo/domain/failures/failures.dart';
 
 abstract class ToDoRepository {
-  Future<Either<Failure, List<ToDoCollection>>> readToDoCollection();
+  Future<Either<Failure, List<ToDoCollection>>> readToDoCollections();
 
   Future<Either<Failure, ToDoEntry>> readToDoEntry(
     CollectionId collectionId,
@@ -23,5 +23,8 @@ abstract class ToDoRepository {
 
   Future<Either<Failure, bool>> createToDoCollection(ToDoCollection collection);
 
-  Future<Either<Failure, bool>> createToDoEntry(ToDoEntry entry);
+  Future<Either<Failure, bool>> createToDoEntry(
+    CollectionId collectionId,
+    ToDoEntry entry,
+  );
 }

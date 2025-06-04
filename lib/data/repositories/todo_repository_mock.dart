@@ -26,7 +26,7 @@ class ToDoRepositoryMock implements ToDoRepository {
   );
 
   @override
-  Future<Either<Failure, List<ToDoCollection>>> readToDoCollection() {
+  Future<Either<Failure, List<ToDoCollection>>> readToDoCollections() {
     try {
       return Future.delayed(
         const Duration(milliseconds: 200),
@@ -118,7 +118,7 @@ class ToDoRepositoryMock implements ToDoRepository {
   }
 
   @override
-  Future<Either<Failure, bool>> createToDoEntry(ToDoEntry entry) {
+  Future<Either<Failure, bool>> createToDoEntry(_, ToDoEntry entry) {
     toDoEntries.add(entry);
     return Future.delayed(
       const Duration(milliseconds: 250),
