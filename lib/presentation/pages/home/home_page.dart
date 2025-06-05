@@ -102,8 +102,17 @@ class _HomePageState extends State<HomePage> {
                   key: Key('top-navigation-small'),
                   builder:
                       (context) => Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [LoginButton()],
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          IconButton(
+                            onPressed:
+                                () => context.goNamed(
+                                  SettingsPage.pageConfig.name,
+                                ),
+                            icon: Icon(Icons.settings),
+                          ),
+                          LoginButton(),
+                        ],
                       ),
                 ),
               },

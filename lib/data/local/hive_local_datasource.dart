@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:todo/data/datasources/interfaces/todo_local_datasource_interface.dart';
 import 'package:todo/data/exceptions/exceptions.dart';
 import 'package:todo/data/models/todo_collection_model.dart';
@@ -12,10 +13,11 @@ class HiveLocalDataSource implements ToDoLocalDataSourceInterface {
 
   Future<void> init() async {
     if (!isInitialized) {
+      final directory = await getApplicationSupportDirectory();
       todoCollections = await BoxCollection.open('todo', {
         'collection',
         'entry',
-      }, path: './');
+      }, path: directory.path);
       isInitialized = true;
     } else {
       debugPrint('Hive was already initialized!');
