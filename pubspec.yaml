@@ -54,6 +54,8 @@ dependencies:
 
   easy_localization: ^3.0.7+1
 
+  alchemist: ^0.12.1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
