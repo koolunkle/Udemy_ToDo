@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -50,7 +51,9 @@ class _CreateToDoCollectionPageState extends State<CreateToDoCollectionPage> {
         child: Column(
           children: [
             TextFormField(
-              decoration: const InputDecoration(labelText: 'Title'),
+              decoration: InputDecoration(
+                labelText: 'collection_title_label'.tr(),
+              ),
               onChanged:
                   (value) => context
                       .read<CreateToDoCollectionPageCubit>()
@@ -63,7 +66,9 @@ class _CreateToDoCollectionPageState extends State<CreateToDoCollectionPage> {
               },
             ),
             TextFormField(
-              decoration: const InputDecoration(labelText: 'Color'),
+              decoration: InputDecoration(
+                labelText: 'collection_color_label'.tr(),
+              ),
               onChanged:
                   (value) => context
                       .read<CreateToDoCollectionPageCubit>()
@@ -74,7 +79,11 @@ class _CreateToDoCollectionPageState extends State<CreateToDoCollectionPage> {
                   if (parsedColorIndex == null ||
                       parsedColorIndex < 0 ||
                       parsedColorIndex > ToDoColor.predefinedColors.length) {
-                    return 'Only numbers between 0 and ${ToDoColor.predefinedColors.length - 1} are allowed';
+                    return 'collection_color_failure'.tr(
+                      namedArgs: {
+                        'numbers': '${ToDoColor.predefinedColors.length - 1}',
+                      },
+                    );
                   }
                 }
                 return null;
@@ -94,7 +103,7 @@ class _CreateToDoCollectionPageState extends State<CreateToDoCollectionPage> {
                   });
                 }
               },
-              child: const Text('Save Collection'),
+              child: Text('collection_save'.tr()),
             ),
           ],
         ),
